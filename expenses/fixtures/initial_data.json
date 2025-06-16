@@ -1,0 +1,42 @@
+[
+  {
+    "model": "expenses.currency",
+    "pk": 1,
+    "fields": {
+      "code": "IDR",
+      "name": "Indonesian Rupiah",
+      "symbol": "Rp",
+      "exchange_rate": "1.0000"
+    }
+  },
+  {
+    "model": "expenses.currency",
+    "pk": 2,
+    "fields": {
+      "code": "USD",
+      "name": "US Dollar",
+      "symbol": "$",
+      "exchange_rate": "15500.0000"
+    }
+  },
+  {
+    "model": "expenses.currency",
+    "pk": 3,
+    "fields": {
+      "code": "EUR",
+      "name": "Euro",
+      "symbol": "€",
+      "exchange_rate": "17000.0000"
+    }
+  },
+  {
+    "model": "expenses.currency",
+    "pk": 4,
+    "fields": {
+      "code": "SGD",
+      "name": "Singapore Dollar",
+      "symbol": "S$",
+      "exchange_rate": "11500.0000"
+    }
+  }
+]

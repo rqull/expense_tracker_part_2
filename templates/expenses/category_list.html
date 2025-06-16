@@ -1,0 +1,71 @@
+{% extends 'base.html' %} {% block title %}
+  Categories - Expense Tracker
+{% endblock %} {% block content %}
+  <div class="bg-dark-card p-6 rounded-lg shadow-md border border-dark-border">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-dark-text-primary">Categories</h1>
+      <a href="{% url 'category_create' %}"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-dark-text-primary bg-dark-button-primary hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+        <i class="fas fa-plus mr-2"></i> Add Category
+      </a>
+    </div>
+
+    {% if categories %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for category in categories %}
+          <div class="border border-dark-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div class="p-4" style="background-color: {{ category.color }}40">
+              <div class="flex justify-between items-center">
+                <div>
+                  <span class="inline-flex items-center">
+                    <span class="w-4 h-4 rounded-full mr-2" style="background-color: {{ category.color }}"></span>
+                    <h3 class="text-lg font-medium text-dark-text-primary">{{ category.name }}</h3>
+                  </span>
+                </div>
+                <div class="text-right">
+                  <i class="fas {% if category.icon %}
+                      {{ category.icon }}
+                    {% else %}
+                      
+                      fa-folder
+
+                    {% endif %} text-xl"
+                    style="color: {{ category.color }}">
+
+                  </i>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 bg-dark-card">
+              <div class="flex justify-between items-center">
+                <div>
+                  <span class="text-sm text-dark-text-secondary">Month's Expenses</span>
+                  <p class="text-lg font-semibold text-dark-text-primary">Rp {{ category.total_expenses|floatformat:0 }}</p>
+                </div>
+                <div class="flex space-x-2">
+                  <a href="{% url 'category_update' category.id %}"
+                    class="text-dark-accent hover:text-dark-button-primary-hover">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a href="{% url 'category_delete' category.id %}" class="text-red-600 hover:text-red-500">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-12">
+        <i class="fas fa-folder-open text-dark-text-secondary text-5xl mb-4"></i>
+        <h3 class="text-lg font-medium text-dark-text-primary">No categories found</h3>
+        <p class="text-dark-text-secondary mt-2">Categories help you organize your expenses.</p>
+        <a href="{% url 'category_create' %}"
+          class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-dark-text-primary bg-dark-button-primary hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+          <i class="fas fa-plus mr-2"></i> Add Category
+        </a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

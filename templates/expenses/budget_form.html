@@ -1,0 +1,158 @@
+{% extends 'base.html' %} {% block title %}
+  {% if form.instance.pk %}
+    Edit
+  {% else %}
+    Add
+  {% endif %}Budget - Expense Tracker
+{% endblock %} {% block content %}
+  <div class="max-w-md mx-auto bg-dark-card p-8 rounded-lg shadow-md border border-dark-border">
+    <h1 class="text-2xl font-bold text-dark-text-primary mb-6">
+      {% if form.instance.pk %}
+        Edit
+      {% else %}
+        Add
+      {% endif %}Budget
+    </h1>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <!-- Category Field -->
+      <div>
+        <label for="id_category" class="block text-sm font-medium text-dark-text-secondary">Category</label>
+        <div class="mt-1">{{ form.category }}</div>
+        {% if form.category.errors %}
+          <p class="mt-2 text-sm text-red-500">{{ form.category.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <!-- Amount Field -->
+      <div>
+        <label for="id_amount" class="block text-sm font-medium text-dark-text-secondary">Budget Amount</label>
+        <div class="mt-1 relative rounded-md shadow-sm">
+          <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+            <span class="text-dark-text-secondary sm:text-sm">Rp</span>
+          </div>
+          {{ form.amount }}
+        </div>
+        {% if form.amount.errors %}
+          <p class="mt-2 text-sm text-red-500">{{ form.amount.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Month Field -->
+        <div>
+          <label for="id_month" class="block text-sm font-medium text-dark-text-secondary">Month</label>
+          <div class="mt-1">{{ form.month }}</div>
+          {% if form.month.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.month.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Year Field -->
+        <div>
+          <label for="id_year" class="block text-sm font-medium text-dark-text-secondary">Year</label>
+          <div class="mt-1">{{ form.year }}</div>
+          {% if form.year.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.year.errors.0 }}</p>
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="flex justify-between pt-4">
+        <button type="submit"
+          class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-dark-text-primary bg-dark-button-primary hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+          {% if form.instance.pk %}
+            Update
+          {% else %}
+            Save
+          {% endif %}Budget
+        </button>
+        <a href="{% url 'budget_list' %}"
+          class="inline-flex justify-center py-2 px-4 border border-dark-border shadow-sm text-sm font-medium rounded-md text-dark-text-primary bg-dark-button-secondary hover:bg-dark-button-secondary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+{% endblock %} {% block extra_scripts %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Style form elements
+      const inputElements = document.querySelectorAll('input[type="text"], input[type="number"]');
+      inputElements.forEach((input) => {
+        input.classList.add(
+          "block",
+          "w-full",
+          "rounded-md",
+          "border-dark-border",
+          "shadow-sm",
+          "focus:border-dark-accent",
+          "focus:ring-dark-accent",
+          "sm:text-sm",
+          "bg-dark-input",
+          "text-dark-text-primary",
+          "placeholder-dark-placeholder"
+        );
+        if (input.id === "id_amount") {
+          input.classList.add("pl-10");
+        }
+      });
+
+      const selectElements = document.querySelectorAll("select");
+      selectElements.forEach((select) => {
+        select.classList.add(
+          "block",
+          "w-full",
+          "rounded-md",
+          "border-dark-border",
+          "shadow-sm",
+          "focus:border-dark-accent",
+          "focus:ring-dark-accent",
+          "sm:text-sm",
+          "bg-dark-input",
+          "text-dark-text-primary",
+          "placeholder-dark-placeholder"
+        );
+      });
+
+      // Convert month field to select if it's a number input
+      const monthField = document.getElementById("id_month");
+      if (monthField && monthField.type === "number") {
+        const monthSelect = document.createElement("select");
+        monthSelect.id = "id_month";
+        monthSelect.name = "month";
+        monthSelect.className =
+          "block w-full rounded-md border-dark-border shadow-sm focus:border-dark-accent focus:ring-dark-accent sm:text-sm bg-dark-input text-dark-text-primary placeholder-dark-placeholder";
+
+        const months = [
+          { value: 1, name: "January" },
+          { value: 2, name: "February" },
+          { value: 3, name: "March" },
+          { value: 4, name: "April" },
+          { value: 5, name: "May" },
+          { value: 6, name: "June" },
+          { value: 7, name: "July" },
+          { value: 8, name: "August" },
+          { value: 9, name: "September" },
+          { value: 10, name: "October" },
+          { value: 11, name: "November" },
+          { value: 12, name: "December" },
+        ];
+
+        months.forEach((month) => {
+          const option = document.createElement("option");
+          option.value = month.value;
+          option.textContent = month.name;
+          if (monthField.value == month.value) {
+            option.selected = true;
+          }
+          monthSelect.appendChild(option);
+        });
+
+        monthField.parentNode.replaceChild(monthSelect, monthField);
+      }
+    });
+  </script>
+{% endblock %}

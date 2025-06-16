@@ -1,0 +1,61 @@
+{% extends 'base.html' %} {% load humanize %} {% block title %}
+  Accounts - Expense Tracker
+{% endblock %} {% block content %}
+  <div class="bg-dark-card p-6 rounded-lg shadow-md border border-dark-border">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-2xl font-bold text-dark-text-primary">Accounts</h1>
+      <a href="{% url 'account_create' %}"
+        class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-dark-text-primary bg-dark-button-primary hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+        <i class="fas fa-plus mr-2"></i> Add Account
+      </a>
+    </div>
+
+    {% if accounts %}
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        {% for account in accounts %}
+          <div class="border border-dark-border rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200">
+            <div class="p-4 bg-dark-bg-secondary border-b border-dark-border">
+              <div class="flex justify-between items-center">
+                <div>
+                  <h3 class="text-lg font-medium text-dark-text-primary">{{ account.name }}</h3>
+                  <p class="text-sm text-dark-text-secondary">{{ account.currency.name }}</p>
+                </div>
+                <div class="text-right">
+                  <i class="fas fa-wallet text-xl text-dark-accent"></i>
+                </div>
+              </div>
+            </div>
+            <div class="p-4 bg-dark-card">
+              <div class="flex justify-between items-center">
+                <div>
+                  <span class="text-sm text-dark-text-secondary">Current Balance</span>
+                  <p class="text-lg font-semibold text-dark-text-primary">{{ account.currency.symbol }}
+                    {{ account.current_balance|floatformat:2|intcomma }}</p>
+                </div>
+                <div class="flex space-x-2">
+                  <a href="{% url 'account_update' account.id %}"
+                    class="text-dark-accent hover:text-dark-button-primary-hover">
+                    <i class="fas fa-edit"></i>
+                  </a>
+                  <a href="{% url 'account_delete' account.id %}" class="text-red-600 hover:text-red-500">
+                    <i class="fas fa-trash"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="text-center py-12">
+        <i class="fas fa-wallet text-dark-text-secondary text-5xl mb-4"></i>
+        <h3 class="text-lg font-medium text-dark-text-primary">No accounts found</h3>
+        <p class="text-dark-text-secondary mt-2">Accounts help you track where your money is.</p>
+        <a href="{% url 'account_create' %}"
+          class="mt-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-dark-text-primary bg-dark-button-primary hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+          <i class="fas fa-plus mr-2"></i> Add Account
+        </a>
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

@@ -1,0 +1,185 @@
+/* Custom styles */
+/* Dark theme */
+body {
+  background-color: #000000;
+  color: #e4e6eb;
+}
+
+/* Custom form elements for dark theme */
+input,
+select,
+textarea {
+  background-color: #2d2d2d !important;
+  border-color: #4b5563 !important;
+  color: #e4e6eb !important;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: #6366f1 !important;
+  box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.25) !important;
+}
+
+/* Card styles for dark theme */
+.card,
+.bg-white,
+div[class*="bg-white"] {
+  background-color: #0a0a0a !important;
+  border-color: #374151 !important;
+  color: #e4e6eb;
+}
+
+/* Table styles for dark theme */
+table {
+  background-color: #0a0a0a;
+  color: #e4e6eb;
+  border-color: #374151;
+}
+
+th {
+  background-color: #1a1a1a !important;
+  color: #e4e6eb !important;
+}
+
+tr {
+  border-color: #374151 !important;
+}
+
+tr:nth-child(even) {
+  background-color: #151515;
+}
+
+/* Progress bar */
+.progress {
+  height: 8px;
+  background-color: #374151;
+  border-radius: 0.25rem;
+  overflow: hidden;
+}
+
+.progress-bar {
+  height: 100%;
+  color: #fff;
+  text-align: center;
+  background-color: #6366f1;
+}
+
+.progress-bar-danger {
+  background-color: #ef4444;
+}
+
+.progress-bar-warning {
+  background-color: #f59e0b;
+}
+
+.nav-link.active {
+  font-weight: bold;
+  color: #6366f1 !important;
+  border-bottom: 2px solid #6366f1;
+}
+
+.form-container {
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.dashboard-card {
+  transition: transform 0.2s;
+  background-color: #1e1e1e;
+  border: 1px solid #374151;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5),
+    0 4px 6px -2px rgba(0, 0, 0, 0.25);
+}
+
+.currency-symbol {
+  font-size: 0.8em;
+  margin-right: 2px;
+}
+
+/* Budget progress bar colors */
+.budget-under-50 {
+  background-color: #10b981; /* Green */
+}
+
+.budget-under-75 {
+  background-color: #f59e0b; /* Yellow */
+}
+
+.budget-under-100 {
+  background-color: #d97706; /* Orange */
+}
+
+.budget-over-100 {
+  background-color: #ef4444; /* Red */
+}
+
+/* Custom dark theme text colors */
+.text-gray-700,
+.text-gray-800,
+.text-gray-900 {
+  color: #e4e6eb !important;
+}
+
+.text-gray-500,
+.text-gray-600 {
+  color: #9ca3af !important;
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 640px) {
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  .table-responsive {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .card-deck {
+    display: block;
+  }
+
+  .card {
+    margin-bottom: 1rem;
+  }
+}
+
+/* Chart.js customization for dark theme */
+.chartjs-render-monitor {
+  background-color: #1e1e1e;
+}
+
+/* Form buttons */
+button,
+.btn,
+[type="button"],
+[type="submit"] {
+  background-color: #4b5563 !important;
+}
+
+button.bg-indigo-600,
+.btn.bg-indigo-600,
+button.bg-indigo-500,
+.btn.bg-indigo-500 {
+  background-color: #6366f1 !important;
+}
+
+button:hover,
+.btn:hover {
+  background-color: #374151 !important;
+}
+
+button.bg-indigo-600:hover,
+.btn.bg-indigo-600:hover,
+button.bg-indigo-500:hover,
+.btn.bg-indigo-500:hover {
+  background-color: #4f46e5 !important;
+}

@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% block title %}
+  Dashboard - Expense Tracker
+{% endblock %}
+{% block content %}
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+    <!-- Overview Card -->
+    <div class="bg-dark-card rounded-lg shadow-md p-6 border border-dark-border dashboard-card col-span-1 md:col-span-2 lg:col-span-2">
+      <h2 class="text-xl font-semibold text-dark-text-primary mb-4">Monthly Overview</h2>
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <span class="text-dark-text-secondary text-sm">Month's Expenses</span>
+          <p class="text-3xl font-bold text-dark-accent">Rp {{ month_expenses|floatformat:0 }}</p>
+        </div>
+        <a href="{% url 'expense_create' %}"
+          class="inline-flex items-center px-4 py-2 bg-dark-button-primary text-dark-text-primary rounded-md hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+          <i class="fas fa-plus mr-2"></i> Add Expense
+        </a>
+      </div>
+      <div>
+        <h3 class="text-sm font-medium text-dark-text-secondary mb-3">Budget Status</h3>
+        {% if budgets %}
+          {% for budget in budgets %}
+            <div class="mb-4">
+              <div class="flex justify-between items-center mb-1">
+                <span class="text-sm text-dark-text-primary">{{ budget.category.name }}</span>
+                <span class="text-sm text-dark-text-primary">
+                  {{ budget.spent|floatformat:0 }} / {{ budget.amount|floatformat:0 }}
+                </span>
+              </div>
+              <div class="progress">
+                <div class="progress-bar {% if budget.percentage_used > 100 %}
+                    
+                    budget-over-100
+
+                  {% elif budget.percentage_used > 75 %}
+                    
+                    budget-under-100
+
+                  {% elif budget.percentage_used > 50 %}
+                    
+                    budget-under-75
+
+                  {% else %}
+                    
+                    budget-under-50
+
+                  {% endif %}"
+                  style="width: {{ budget.percentage_used }}%"></div>
+              </div>
+            </div>
+          {% endfor %}
+        {% else %}
+          <div class="text-center py-4 text-dark-text-secondary">
+            <p>No budgets set for this month.</p>
+            <a href="{% url 'budget_create' %}"
+              class="text-dark-accent hover:text-dark-button-primary-hover mt-2 inline-block">
+              <i class="fas fa-plus-circle mr-1"></i> Set a budget
+            </a>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+    <!-- Recent Expenses -->
+    <div class="bg-dark-card rounded-lg shadow-md p-6 border border-dark-border dashboard-card col-span-1 md:col-span-2 lg:col-span-2">
+      <div class="flex justify-between items-center mb-4">
+        <h2 class="text-xl font-semibold text-dark-text-primary">Recent Expenses</h2>
+        <a href="{% url 'expense_list' %}" class="text-sm text-dark-accent hover:text-dark-button-primary-hover">
+          View All
+        </a>
+      </div>
+      {% if recent_expenses %}
+        <div class="space-y-4">
+          {% for expense in recent_expenses %}
+            <div class="flex items-center justify-between p-3 hover:bg-dark-bg-tertiary rounded-md transition-colors">
+              <div class="flex items-center">
+                <div class="w-10 h-10 rounded-full flex items-center justify-center"
+                  style="background-color: {{ expense.category.color }}">
+                  <i class="fas {% if expense.category.icon %}
+                      {{ expense.category.icon }}
+                    {% else %}
+                      
+                      fa-receipt
+
+                    {% endif %} text-dark-text-primary">
+
+                  </i>
+                </div>
+                <div class="ml-4">
+                  <p class="text-sm font-medium text-dark-text-primary">{{ expense.description }}</p>
+                  <p class="text-xs text-dark-text-secondary">{{ expense.date }} · {{ expense.category.name }}</p>
+                </div>
+              </div>
+              <div class="text-right">
+                <p class="text-sm font-semibold text-dark-text-primary">{{ expense.currency.symbol }}
+                  {{ expense.amount|floatformat:2 }}</p>
+                {% if expense.account %}
+                  <p class="text-xs text-dark-text-secondary">{{ expense.account.name }}</p>
+                {% endif %}
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="text-center py-8 text-dark-text-secondary">
+          <i class="fas fa-receipt text-4xl mb-3"></i>
+          <p>No expenses recorded yet.</p>
+          <a href="{% url 'expense_create' %}"
+            class="text-dark-accent hover:text-dark-button-primary-hover mt-2 inline-block">
+            <i class="fas fa-plus-circle mr-1"></i> Add your first expense
+          </a>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Charts -->
+  <div class="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Monthly Expenses Chart -->
+    <div class="bg-dark-card rounded-lg shadow-md p-6 border border-dark-border">
+      <h2 class="text-xl font-semibold text-dark-text-primary mb-4">Expense Trend (6 Months)</h2>
+      <div class="h-64">
+        <canvas id="monthlyExpensesChart"></canvas>
+      </div>
+    </div>
+
+    <!-- Category Breakdown Chart -->
+    <div class="bg-dark-card rounded-lg shadow-md p-6 border border-dark-border">
+      <h2 class="text-xl font-semibold text-dark-text-primary mb-4">Category Breakdown</h2>
+      <div class="h-64">
+        <canvas id="categoryExpensesChart"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hidden data for charts -->
+  <div class="hidden" id="months-data">{{ months_data|safe }}</div>
+  <div class="hidden" id="categories-data">{{ categories_data|safe }}</div>
+{% endblock %}

@@ -1,0 +1,157 @@
+{% extends 'base.html' %} {% block title %}
+  {{ title }} - Expense Tracker
+{% endblock %} {% block content %}
+  <div class="max-w-3xl mx-auto bg-dark-card p-8 rounded-lg shadow-md border border-dark-border">
+    <h1 class="text-2xl font-bold text-dark-text-primary mb-6">{{ title }}</h1>
+
+    <form method="post" class="space-y-6">
+      {% csrf_token %}
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Amount Field -->
+        <div>
+          <label for="id_amount" class="block text-sm font-medium text-dark-text-secondary">Amount</label>
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+              <span class="text-dark-text-secondary sm:text-sm">{{ form.currency.value }}</span>
+            </div>
+            {{ form.amount }}
+          </div>
+          {% if form.amount.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.amount.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Currency Field -->
+        <div>
+          <label for="id_currency" class="block text-sm font-medium text-dark-text-secondary">Currency</label>
+          <div class="mt-1">{{ form.currency }}</div>
+          {% if form.currency.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.currency.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Date Field -->
+        <div>
+          <label for="id_date" class="block text-sm font-medium text-dark-text-secondary">Date</label>
+          <div class="mt-1">{{ form.date }}</div>
+          {% if form.date.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.date.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <!-- Category Field -->
+        <div>
+          <label for="id_category" class="block text-sm font-medium text-dark-text-secondary">Category</label>
+          <div class="mt-1">{{ form.category }}</div>
+          {% if form.category.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.category.errors.0 }}</p>
+          {% endif %}
+          <div class="mt-1 text-right">
+            <a href="{% url 'category_create' %}" class="text-xs text-dark-accent hover:text-dark-button-primary-hover">
+              + Add New Category
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Description Field -->
+      <div>
+        <label for="id_description" class="block text-sm font-medium text-dark-text-secondary">Description</label>
+        <div class="mt-1">{{ form.description }}</div>
+        {% if form.description.errors %}
+          <p class="mt-2 text-sm text-red-500">{{ form.description.errors.0 }}</p>
+        {% endif %}
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <!-- Account Field -->
+        <div>
+          <label for="id_account" class="block text-sm font-medium text-dark-text-secondary">Account (Optional)</label>
+          <div class="mt-1">{{ form.account }}</div>
+          {% if form.account.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.account.errors.0 }}</p>
+          {% endif %}
+          <div class="mt-1 text-right">
+            <a href="{% url 'account_create' %}" class="text-xs text-dark-accent hover:text-dark-button-primary-hover">
+              + Add New Account
+            </a>
+          </div>
+        </div>
+
+        <!-- Tags Field -->
+        <div>
+          <label for="id_tags" class="block text-sm font-medium text-dark-text-secondary">Tags (Optional)</label>
+          <div class="mt-1">{{ form.tags }}</div>
+          {% if form.tags.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.tags.errors.0 }}</p>
+          {% endif %}
+          <div class="mt-1 text-right">
+            <a href="{% url 'tag_create' %}" class="text-xs text-dark-accent hover:text-dark-button-primary-hover">
+              + Add New Tag
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex justify-between pt-4">
+        <button type="submit"
+          class="inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-dark-text-primary bg-dark-button-primary hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+          {% if expense %}
+            Update
+          {% else %}
+            Save
+          {% endif %}Expense
+        </button>
+        <a href="{% url 'expense_list' %}"
+          class="inline-flex justify-center py-2 px-4 border border-dark-border shadow-sm text-sm font-medium rounded-md text-dark-text-primary bg-dark-button-secondary hover:bg-dark-button-secondary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+          Cancel
+        </a>
+      </div>
+    </form>
+  </div>
+{% endblock %} {% block extra_scripts %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // Style form elements
+      const inputElements = document.querySelectorAll(
+        'input[type="text"], input[type="number"], input[type="date"], textarea'
+      );
+      inputElements.forEach((input) => {
+        input.classList.add(
+          "block",
+          "w-full",
+          "rounded-md",
+          "border-dark-border",
+          "shadow-sm",
+          "focus:border-dark-accent",
+          "focus:ring-dark-accent",
+          "sm:text-sm",
+          "bg-dark-input",
+          "text-dark-text-primary",
+          "placeholder-dark-placeholder"
+        );
+        if (input.id === "id_amount") {
+          input.classList.add("pl-10");
+        }
+      });
+
+      const selectElements = document.querySelectorAll("select");
+      selectElements.forEach((select) => {
+        select.classList.add(
+          "block",
+          "w-full",
+          "rounded-md",
+          "border-dark-border",
+          "shadow-sm",
+          "focus:border-dark-accent",
+          "focus:ring-dark-accent",
+          "sm:text-sm",
+          "bg-dark-input",
+          "text-dark-text-primary",
+          "placeholder-dark-placeholder"
+        );
+      });
+    });
+  </script>
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Log In - Expense Tracker
+{% endblock %}
+
+{% block content %}
+  <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-8">
+    <div class="sm:mx-auto sm:w-full sm:max-w-sm">
+      <h2 class="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-dark-text-primary">
+        Sign in to your account
+      </h2>
+    </div>
+
+    <div class="mt-10 sm:mx-auto sm:w-full sm:max-w-sm bg-dark-card p-8 rounded-lg shadow-md border border-dark-border">
+      <form class="space-y-6" method="post">
+        {% csrf_token %}
+        <div>
+          <label for="id_username" class="block text-sm font-medium leading-6 text-dark-text-secondary">Username</label>
+          <div class="mt-2">
+            <input id="id_username"
+              name="username"
+              type="text"
+              required
+              class="block w-full rounded-md border-0 py-1.5 px-3 bg-dark-input text-dark-text-primary shadow-sm ring-1 ring-inset ring-dark-border placeholder:text-dark-placeholder focus:ring-2 focus:ring-inset focus:ring-dark-accent sm:text-sm sm:leading-6" />
+          </div>
+          {% if form.username.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.username.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        <div>
+          <div class="flex items-center justify-between">
+            <label for="id_password" class="block text-sm font-medium leading-6 text-dark-text-secondary">
+              Password
+            </label>
+          </div>
+          <div class="mt-2">
+            <input id="id_password"
+              name="password"
+              type="password"
+              required
+              class="block w-full rounded-md border-0 py-1.5 px-3 bg-dark-input text-dark-text-primary shadow-sm ring-1 ring-inset ring-dark-border placeholder:text-dark-placeholder focus:ring-2 focus:ring-inset focus:ring-dark-accent sm:text-sm sm:leading-6" />
+          </div>
+          {% if form.password.errors %}
+            <p class="mt-2 text-sm text-red-500">{{ form.password.errors.0 }}</p>
+          {% endif %}
+        </div>
+
+        {% if form.non_field_errors %}
+          <div class="rounded-md bg-red-900 p-4">
+            <div class="flex">
+              <div class="flex-shrink-0">
+                <i class="fas fa-exclamation-circle text-red-400"></i>
+              </div>
+              <div class="ml-3">
+                <h3 class="text-sm font-medium text-red-200">{{ form.non_field_errors.0 }}</h3>
+              </div>
+            </div>
+          </div>
+        {% endif %}
+        <div class="text-sm">
+          <a href="{% url 'password_reset' %}"
+            class="font-semibold text-dark-accent hover:text-dark-button-primary-hover">
+            Forgot password?
+          </a>
+        </div>
+        <div>
+          <button type="submit"
+            class="flex w-full justify-center rounded-md bg-dark-button-primary px-3 py-1.5 text-sm font-semibold leading-6 text-dark-text-primary shadow-sm hover:bg-dark-button-primary-hover focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-dark-accent">
+            Sign in
+          </button>
+        </div>
+      </form>
+
+      <p class="mt-10 text-center text-sm text-dark-text-secondary">
+        Don't have an account?
+        <a href="{% url 'register' %}"
+          class="font-semibold leading-6 text-dark-accent hover:text-dark-button-primary-hover">
+          Register here
+        </a>
+      </p>
+    </div>
+  </div>
+{% endblock %}
