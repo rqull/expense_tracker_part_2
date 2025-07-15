@@ -18,6 +18,11 @@ import csv
 import datetime
 import json
 
+try:
+    from openpyxl import Workbook
+except ImportError:
+    Workbook = None
+
 # Authentication views
 def register(request):
     if request.method == 'POST':
@@ -208,6 +213,45 @@ def export_expenses_csv(request):
             tags
         ])
 
+    return response
+
+@login_required
+def export_expenses_xlsx(request):
+    if Workbook is None:
+        messages.error(request, "Export XLSX tidak tersedia. Silakan install paket 'openpyxl' terlebih dahulu dengan menjalankan 'pip install openpyxl'.")
+        return redirect('expense_list')
+
+    # Membuat workbook baru
+    workbook = Workbook()
+    sheet = workbook.active
+    sheet.title = "Expenses"
+
+    # Header untuk file Excel
+    headers = ['Date', 'Amount', 'Currency', 'Description', 'Category', 'Account', 'Tags']
+    sheet.append(headers)
+
+    # Mengambil data pengeluaran pengguna
+    expenses = Expense.objects.filter(user=request.user).order_by('date')
+    for expense in expenses:
+        tags = ", ".join([tag.name for tag in expense.tags.all()])
+        account_name = expense.account.name if expense.account else 'N/A'
+        sheet.append([
+            expense.date,
+            expense.amount,
+            expense.currency.code,
+            expense.description,
+            expense.category.name,
+            account_name,
+            tags
+        ])
+
+    # Membuat response
+    response = HttpResponse(
+        content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    )
+    response['Content-Disposition'] = 'attachment; filename="expenses.xlsx"'
+
+    workbook.save(response)
     return response
 
 # Category views

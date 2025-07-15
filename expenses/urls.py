@@ -21,6 +21,7 @@ urlpatterns = [
     path('expenses/<int:pk>/edit/', views.expense_update, name='expense_update'),
     path('expenses/<int:pk>/delete/', views.expense_delete, name='expense_delete'),
     path('expenses/export/csv/', views.export_expenses_csv, name='export_expenses_csv'),
+    path('expenses/export/xlsx/', views.export_expenses_xlsx, name='export_expenses_xlsx'),
 
     # Categories
     path('categories/', views.CategoryListView.as_view(), name='category_list'),
