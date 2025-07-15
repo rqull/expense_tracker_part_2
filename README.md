@@ -1,5 +1,45 @@
 # Expense Tracker
+# Expense Tracker
 
+Aplikasi untuk melacak pengeluaran pribadi dan mengelola anggaran.
+
+## Fitur
+
+- Manajemen pengeluaran
+- Kategori pengeluaran
+- Anggaran bulanan
+- Pengeluaran berulang
+- Tag untuk pengelompokan pengeluaran
+- Dashboard dengan visualisasi
+- Export data ke CSV dan Excel
+
+## Instalasi
+
+1. Clone repositori ini
+2. Buat virtual environment: `python -m venv .venv`
+3. Aktifkan virtual environment:
+   - Windows: `.venv\Scripts\activate`
+   - Linux/Mac: `source .venv/bin/activate`
+4. Install dependensi:
+   - Cara mudah: `python install_requirements.py`
+   - Atau manual: `pip install -r requirements.txt`
+5. Jalankan migrasi: `python manage.py migrate`
+6. Buat superuser: `python manage.py createsuperuser`
+7. Jalankan server: `python manage.py runserver`
+
+## Catatan Penting
+
+Untuk menggunakan fitur Export XLSX, pastikan paket `openpyxl` sudah terinstal:
+
+```
+pip install openpyxl
+```
+
+Atau jalankan script instalasi yang sudah disediakan:
+
+```
+python install_requirements.py
+```
 A full-stack Django application for tracking personal expenses, with features for budgeting, recurring expenses, and multi-currency support.
 
 ## Features
