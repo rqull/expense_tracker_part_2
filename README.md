@@ -13,6 +13,7 @@ A full-stack Django application for tracking personal expenses, with features fo
 - Export data to CSV
 - Mobile-responsive interface
 - Django Admin integration
+- Environment variables using python-dotenv
 
 ## Tech Stack
 
@@ -21,6 +22,7 @@ A full-stack Django application for tracking personal expenses, with features fo
 - **Frontend**: Tailwind CSS, Alpine.js, HTMX
 - **Charts**: Chart.js
 - **Icons**: Font Awesome
+- **Environment**: python-dotenv
 
 ## Installation
 
@@ -49,42 +51,61 @@ A full-stack Django application for tracking personal expenses, with features fo
    pip install -r requirements.txt
    ```
 
-4. Configure your database in `settings.py`:
+4. Create a `.env` file in the root directory:
+   ```
+   # Django Settings
+   DEBUG=True
+   SECRET_KEY=your-secret-key-here
+
+   # Database Settings
+   DB_NAME=YOUR DATABASE NAME
+   DB_USER=YOUR DATABASE USER
+   DB_PASSWORD=YOUR DATABASE PASSWORD
+   DB_HOST=YOUR HOST
+   DB_PORT=YOUR PORT
+   ```
+
+5. Configure your database in `settings.py`:
    ```python
+   from dotenv import load_dotenv
+   import os
+
+   load_dotenv()
+
    DATABASES = {
        'default': {
            'ENGINE': 'django.db.backends.postgresql',
-           'NAME': 'expense_tracker_db',
-           'USER': 'postgres',
-           'PASSWORD': '12345',
-           'HOST': 'localhost',
-           'PORT': '5432',
+           'NAME': os.getenv('DB_NAME'),
+           'USER': os.getenv('DB_USER'),
+           'PASSWORD': os.getenv('DB_PASSWORD'),
+           'HOST': os.getenv('DB_HOST'),
+           'PORT': os.getenv('DB_PORT'),
        }
    }
    ```
 
-5. Run migrations:
+6. Run migrations:
    ```
    python manage.py makemigrations expenses
    python manage.py migrate
    ```
 
-6. Create a superuser:
+7. Create a superuser:
    ```
    python manage.py createsuperuser
    ```
 
-7. Load initial data (currencies):
+8. Load initial data (currencies):
    ```
    python manage.py loaddata currencies
    ```
 
-8. Start the development server:
+9. Start the development server:
    ```
    python manage.py runserver
    ```
 
-9. Visit `http://127.0.0.1:8000/` in your browser
+10. Visit `http://127.0.0.1:8000/` in your browser
 
 ## Usage
 
@@ -93,6 +114,11 @@ A full-stack Django application for tracking personal expenses, with features fo
 3. Set up monthly budgets for your categories
 4. Add your expenses
 5. View your spending patterns in the dashboard
+
+## Important Notes
+
+- Never commit your `.env` file to version control
+- Keep your SECRET_KEY secure and unique for each deployment
 
 ## License
 
