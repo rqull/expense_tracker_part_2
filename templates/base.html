@@ -166,11 +166,13 @@
                 <span class="block px-4 py-2 text-sm text-dark-text-secondary"
                   >{{ user.username }}</span
                 >
-                <a
-                  href="{% url 'logout' %}"
-                  class="block px-4 py-2 text-sm text-dark-text-primary hover:bg-dark-button-secondary-hover"
-                  >Sign out</a
-                >
+                <form method="post" action="{% url 'logout' %}" class="m-0 p-0">
+                  {% csrf_token %}
+                  <button type="submit" 
+                    class="w-full text-left block px-4 py-2 text-sm text-dark-text-primary hover:bg-dark-button-secondary-hover">
+                    Sign out
+                  </button>
+                </form>
               </div>
             </div>
             {% else %}
