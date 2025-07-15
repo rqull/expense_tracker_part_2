@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Logout - Expense Tracker{% endblock %}
+
+{% block content %}
+<div class="min-h-screen flex items-center justify-center">
+    <div class="max-w-md w-full px-6 py-8 bg-dark-card rounded-lg shadow-md border border-dark-border">
+        <h2 class="mb-6 text-center text-2xl font-bold text-dark-text-primary">Logout Confirmation</h2>
+        <p class="mb-6 text-center text-dark-text-secondary">Are you sure you want to logout?</p>
+
+        <form method="post" action="{% url 'logout' %}">
+            {% csrf_token %}
+            <div class="flex justify-center">
+                <button type="submit" class="w-full px-4 py-2 bg-dark-button-primary text-white font-medium rounded-md hover:bg-dark-button-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dark-accent">
+                    Confirm Logout
+                </button>
+            </div>
+        </form>
+
+        <div class="mt-4 text-center">
+            <a href="{% url 'dashboard' %}" class="text-dark-accent hover:text-dark-button-primary-hover">Return to Dashboard</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

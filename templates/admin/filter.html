@@ -1,0 +1,13 @@
+{% load i18n %}
+<details{% if not title %} open{% endif %} class="border-b-1 border-b-black border-opacity-10 details-filter">
+<summary>
+    <h3 class="filter-title">{% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}</h3>
+</summary>
+<ul class="filter-list">
+    {% for choice in choices %}
+        <li{% if choice.selected %} class="selected"{% endif %}>
+            <a href="{{ choice.query_string|iriencode }}" title="{% blocktranslate with filter_title=title %} By {{ filter_title }} {% endblocktranslate %}">{{ choice.display }}</a>
+        </li>
+    {% endfor %}
+</ul>
+</details>
